@@ -3,9 +3,11 @@ const generateToken=require('../config/generateToken');
 const asyncHandler=require('express-async-handler');
 
 const registerUser=asyncHandler(async (req,res)=>{
-    const {email,name,password}=req.body;
+    console.log(req.body);
+    const {email,name,password,gymName,ownerName,photos,description,location}=req.body;
+    console.log(email,name,password,gymName,ownerName,photos,description,location);
 
-    if(!email || !name || !password){
+    if(!email || !name || !password || !gymName || !ownerName || !photos || !description || !location){
         throw new Error("Fill all the details");
         
     }
@@ -19,14 +21,25 @@ const registerUser=asyncHandler(async (req,res)=>{
     const user=await User.create({
         name,
         email,
-        password
+        password,
+        gymName,
+        ownerName,
+        photos,
+        description,
+        location
     });
 
     if(user){
         res.status(200).json({
+            _id:user._id,
             name:user.name,
             email:user.email,
             password:user.password,
+            gymName:user.gymName,
+            ownerName:user.ownerName,
+            photos:user.photos,
+            description:user.description,
+            location:user.location,
             token:generateToken(user._id)
         })
     }else{
@@ -47,6 +60,11 @@ const authUser=asyncHandler(async(req,res)=>{
             name:user.name,
             email:user.email,
             password:user.password,
+            gymName:user.gymName,
+            ownerName:user.ownerName,
+            photos:user.photos,
+            description:user.description,
+            location:user.location,
             token:generateToken(user._id) 
         })
         
@@ -56,4 +74,22 @@ const authUser=asyncHandler(async(req,res)=>{
     }
 })
 
-module.exports={registerUser,authUser};
+const updateUser=asyncHandler(async(req,res)=>{
+    try{
+    const {gymName,ownerName,description,location,photos,userId}=req.body;
+     console.log({gymName,ownerName,description,location,photos,userId});
+     const updatedUserDetails=await User.findOneAndUpdate({_id:userId},{gymName,ownerName,description,location,photos});
+      console.log(updatedUserDetails);
+     if(updatedUserDetails){
+        res.status(200).json({
+            message:"Gym Updated Successfully",updatedUserDetails
+        });
+    }
+    }catch(err){
+        res.status(400);
+    throw new Error("Some error occured");
+    }
+
+})
+
+module.exports={registerUser,authUser,updateUser};

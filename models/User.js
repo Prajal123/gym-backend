@@ -13,6 +13,28 @@ const userSchema=mongoose.Schema({
     password:{
         type:String,
         required:true
+    },
+    gymName:{
+        type:String,
+        required:true
+    },
+    ownerName:{
+        type:String,
+        required:true
+    },
+    photos:[
+        {
+            type:String,
+
+        }
+    ],
+    description:{
+        type:String,
+        required:true
+    },
+    location:{
+        type:String,
+        required:true
     }
 },{
     timestamps:true
