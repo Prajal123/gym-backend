@@ -35,6 +35,24 @@ const userSchema=mongoose.Schema({
     location:{
         type:String,
         required:true
+    },
+    annual_subscription_price:{
+        type:String
+    },
+    timing:{
+        type:String
+    },
+    gym_equipments:{
+        type:String
+    },
+    total_occupancy:{
+        type:String
+    },
+    no_of_trainer_available:{
+        type:String
+    },
+    male_female_allow:{
+        type:String
     }
 },{
     timestamps:true

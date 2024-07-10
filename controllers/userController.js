@@ -3,10 +3,8 @@ const generateToken=require('../config/generateToken');
 const asyncHandler=require('express-async-handler');
 
 const registerUser=asyncHandler(async (req,res)=>{
-    console.log(req.body);
+    
     const {email,name,password,gymName,ownerName,photos,description,location}=req.body;
-    console.log(email,name,password,gymName,ownerName,photos,description,location);
-
     if(!email || !name || !password || !gymName || !ownerName || !photos || !description || !location){
         throw new Error("Fill all the details");
         
@@ -76,10 +74,8 @@ const authUser=asyncHandler(async(req,res)=>{
 
 const updateUser=asyncHandler(async(req,res)=>{
     try{
-    const {gymName,ownerName,description,location,photos,userId}=req.body;
-     console.log({gymName,ownerName,description,location,photos,userId});
-     const updatedUserDetails=await User.findOneAndUpdate({_id:userId},{gymName,ownerName,description,location,photos});
-      console.log(updatedUserDetails);
+    const {gymName,ownerName,description,location,photos,userId,annual_subscription_price,male_female_allow,no_of_trainer_available,gym_equipments,timing,total_occupancy}=req.body;
+     const updatedUserDetails=await User.findOneAndUpdate({_id:userId},{gymName,ownerName,description,location,photos,annual_subscription_price,male_female_allow,no_of_trainer_available,gym_equipments,timing,total_occupancy},{new:true});
      if(updatedUserDetails){
         res.status(200).json({
             message:"Gym Updated Successfully",updatedUserDetails
